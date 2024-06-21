@@ -1,0 +1,51 @@
+book_name,author,year,genre,rent_price,purchase_price,code,satus
+Cien anios de soledad,Gabriel Garcia Marquez,1966,Romance,4.25,18.3,8040,disponible
+El senior de los anillos,J. R. R. Tolkien,2014,Romance,4.02,21.38,9820,disponible
+1984,George Orwell,1962,Fantasia,2.04,28.24,9023,no disponible
+Un mundo feliz,Aldous Huxley,1913,Romance,8.89,28.0,3325,no disponible
+The Catcher in the Rye,John Smith,2008,Biografia,7.53,12.37,7805,no disponible
+Orgullo y prejuicio,Jane Austen,1991,Literatura,1.01,29.44,2899,disponible
+Crimen y castigo,Fiodor Dostoyevski,1965,Romance,1.5,13.64,6509,no disponible
+Lolita,Vladimir Nabokov,1999,Biografia,2.08,11.56,8082,disponible
+Ulises,James Joyce,1948,Ficcion,1.26,17.16,6419,no disponible
+Madame Bovary,Gustave Flauber,1934,Ficcion,5.68,23.11,9376,disponible
+En busca del tiempo perdido,Marcel Proust,1956,Literatura,2.19,27.36,7024,no disponible
+Don Quijote de la Mancha,Miguel de Cervantes,2012,Biografia,8.88,13.94,8085,disponible
+El retrato de Dorian Gray,Oscar Wilde,1923,Literatura,8.3,20.36,7601,no disponible
+Ana Karenina,Leon Tolstoi,1938,Literatura,9.18,19.83,6652,disponible
+El Principito,Antoine de Saint-Exupery,1907,Romance,8.6,12.0,5583,disponible
+El proceso,Franz Kafka,1911,Ficcion,1.01,14.76,8765,no disponible
+El ruido y la furia,William Faulkne,1968,Ficcion,9.51,22.03,2559,disponible
+Hamlet,William Shakespeare,1994,Biografia,6.19,21.45,7937,disponible
+Lo que el viento se llevo,Margaret Mitchell,1952,Misterio,2.84,23.89,3894,no disponible
+La Odisea,Homero,2007,Literatura,9.44,17.53,1666,no disponible
+Las uvas de la ira,John Steinbeck,1966,Ficcion,6.92,27.15,5297,no disponible
+El guardian entre el centeno,J. D. Salinger,2012,Fantasia,4.29,21.74,0763,disponible
+Cumbres borrascosas,Emily Bronte,1950,Ficcion,5.63,14.3,4498,no disponible
+El gran Gatsby,F. Scott Fitzgerald,1993,Fantasia,9.13,20.23,7021,no disponible
+Mil soles esplendidos,Khaled Hosseini,1960,Ficcion,3.43,21.51,3710,no disponible
+Alicia en el pais de las maravillas,Lewis Carroll,2023,Ficcion,1.12,18.03,7965,disponible
+Rebelion en la granja,George Orwell,1978,Biografia,1.29,27.42,3510,no disponible
+Los pilares de la tierra,Ken Follett,1954,Misterio,6.15,12.67,0699,disponible
+Guerra y paz,Leon Tolstoi,2006,Ficcion,6.27,13.57,7966,disponible
+Memorias de una geisha,Arthur Golden,1983,Biografia,6.98,26.39,390,no disponible
+Frankenstein,Mary W. Shelley,1935,Romance,6.79,14.74,8006,no disponible
+Los viajes de Gulliver,Jonathan Swift,1922,Romance,8.34,14.09,2211,no disponible
+La ladrona de libros,Markus Zusak,1917,Fantasia,5.67,14.16,6549,disponible
+Matar a un ruisenior,Harper Lee,1953,Biografia,8.62,19.82,8522,disponible
+El conde de Montecristo,Alejandro Dumas,2005,Misterio,3.32,10.16,329,disponible
+Los juegos del hambre,Suzanne Collins,1949,Misterio,2.07,15.79,9444,no disponible
+Harry Potter y la piedra filosofal,J. K. Rowling,2001,Literatura,2.66,20.33,8395,disponible
+The Catcher in the Rye,Michael Johnson,1934,Fantasia,5.63,23.56,6699,no disponible
+El señor de las moscas,William Golding,1946,Romance,8.91,21.17,5598,disponible
+Moby Dick,Herman Melville,1964,Biografia,3.24,13.76,3794,no disponible
+Los miserables,Victor Hugo,1990,Romance,2.3,11.43,0112,disponible
+Las aventuras de Huckleberry Finn,Mark Twain,1992,Misterio,1.31,15.54,8602,disponible
+Tristam Shandy,Laurence Sterne,1912,Misterio,1.46,15.59,8551,disponible
+Dracula,Bram Stoker,2012,Literatura,7.41,24.0,4859,disponible
+El nombre de la rosa,Umberto Eco,1906,Literatura,1.86,13.3,3925,disponible
+El extranjero,Albert Camus,2023,Misterio,4.07,26.17,189,disponible
+Los hermanos Karamazov,Fiodor Dostoyevski,1955,Misterio,1.97,23.89,2021,no disponible
+El amor en los tiempos del colera,Gabriel Garcia Marquez,1954,Ficcion,7.58,11.72,4604,disponible
+Harry Potter y las reliquias de la muerte,J. K. Rowling,1985,Ficcion,1.68,11.82,5163,disponible
+El codigo Da Vinci,Dan Brown,1955,Biografia,9.34,28.26,8256,disponible
