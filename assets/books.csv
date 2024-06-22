@@ -1,4 +1,4 @@
-book_name,author,year,genre,rent_price,purchase_price,code,satus
+book_name,author,year,genre,rent_price,purchase_price,code,status
 Cien anios de soledad,Gabriel Garcia Marquez,1966,Romance,4.25,18.3,8040,disponible
 El senior de los anillos,J. R. R. Tolkien,2014,Romance,4.02,21.38,9820,disponible
 1984,George Orwell,1962,Fantasia,2.04,28.24,9023,no disponible
