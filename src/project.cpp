@@ -154,6 +154,6 @@ int main(){
     // A partir del indice anterior, ver tipo de usuario y estado de cuenta, y presentar opciones
     /*code*/
 
-
+    //.//
     
 }
