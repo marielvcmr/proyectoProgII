@@ -28,7 +28,11 @@ void arrayCreation(user usersList[]){
     string rol; 
     
     fstream inUsersList;   // creacion del filehand
-    inUsersList.open("dataProject.csv", ios:: in);     // abrimos el file
+    inUsersList.open("C:/Users/maria/OneDrive/Desktop/projectP2/assets/dataProject.csv", ios:: in);     // abrimos el file
+
+    if(!inUsersList.is_open()){
+        cout<<"No se encontro el archivo solicitado"<<endl;
+    }
 
     getline(inUsersList, usuarioDatos);   // leemos la primera linea, que tiene los caracteristicas de los datos de la estructura
     int line = 0;    // indice del nro de linea de datos a ingresar en el arreglo
@@ -98,6 +102,8 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
             if(inPassword == usersList[i].password){
                 userIndex = i;
                 break;
+            }else{
+                i += 1;
             }
         }else{
             i += 1;
@@ -105,7 +111,14 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
     }
     // Dependiendo de si el index anterior es mayor a -1 o es -1, sabemos si los datos anteriores se autenticaron o no
     if(userIndex>=0){
-        cout<<"Hola, "<<usersList[userIndex].name<<"!\nAhora puedes disfrutar de todo lo que te ofrece la Biblioteca"<<endl;
+        cout<<"Hola, "<<usersList[userIndex].name<<"!"<<endl;
+
+        if(usersList[userIndex].accState == "suspendida"){
+            cout<<"Lo sentimos, esta cuenta esta suspendida."<<endl;
+            userIndex = -1;
+        }else{
+            cout<<"Ahora puedes disfrutar de todo lo que te ofrece la Biblioteca"<<endl;
+        }
     }
     else{
         cout<<"Sus datos son incorrectos"<<endl;
@@ -132,10 +145,10 @@ int main(){
     
     signIn(varUsuario, varClave, indiceUsuario, usersList);
 
-    if(indiceUsuario == -1){   // datos invalidos
+    if(indiceUsuario == -1){   // datos invalidos o cuenta suspendida
 
         do{         // ciclo para ingresar datos de nuevo o no
-            cout<<"¿Desea ingresar sus datos de nuevo?"<<endl;
+            cout<<"¿Desea ingresar nuevos datos?"<<endl;
             cout<<"Use 1 para indicar si, y 2 para indicar no: ";
             cin>>intentoError;
             switch (intentoError){ 
