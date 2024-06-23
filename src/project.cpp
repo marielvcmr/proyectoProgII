@@ -103,7 +103,7 @@ void signIn(string &inUsername, string &inPassword, int &userIndex, user usersLi
     for (int i = 0; i<6; i++) {
         cout<<" "; 
     }
-    cout<<"|"<<endl;         
+    cout<<"  |"<<endl;         
 
     cout<<". ";
     for(int i = 0; i<40; i++) {
