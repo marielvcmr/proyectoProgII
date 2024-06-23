@@ -140,16 +140,24 @@ while(usersList[i].username != "") {
 
 void saveUsers(user usersList[]) {
     ofstream outUsersList("./assets/dataProject.csv", ios::out);
+    if (!outUsersList.is_open()) {
+        cout << "No se pudo abrir el archivo para guardar los usuarios.\n";
+        return;
+    }
+
     outUsersList << "nombre,apellido,cedula,usuario,clave,estatus,rol" << endl;
 
-    for(int i = 0; i < 200 && !usersList[i].username.empty(); i++) {
-        outUsersList << usersList[i].name << ',' << usersList[i].last_name << ','
-                     << usersList[i].id << ',' << usersList[i].username << ','
-                     << usersList[i].password << ',' << usersList[i].accState << ','
-                     << usersList[i].role << endl;
+    for(int i = 0; i < 200; i++) {
+        if (!usersList[i].username.empty()) { // Verificar usuarios válidos
+            outUsersList << usersList[i].name << ',' << usersList[i].last_name << ','
+                         << usersList[i].id << ',' << usersList[i].username << ','
+                         << usersList[i].password << ',' << usersList[i].accState << ','
+                         << usersList[i].role << endl;
+        }
     }
 
     outUsersList.close();
+    cout << "Usuarios guardados correctamente.\n"; // Mensaje de confirmación
 }
 
 void saveBooks(book booksList[]) {
@@ -195,12 +203,21 @@ void deleteUser(user usersList[]) {
     string username;
     cout << "Ingrese el nombre de usuario a eliminar: ";
     cin >> username;
+    bool userFound = false;
+    
     for(int i = 0; i < 200; i++) {
         if(usersList[i].username == username) {
-            usersList[i].username = "";
-            saveUsers(usersList);
-            break;
+            usersList[i].username = ""; // Marca el usuario como eliminado
+            userFound = true;
+            break; // Rompe el ciclo después de encontrar y marcar el usuario
         }
+    }
+    
+    if(userFound) {
+        saveUsers(usersList); // Guarda la lista actualizada
+        cout << "Usuario eliminado con exito.\n";
+    } else {
+        cout << "Usuario no encontrado.\n";
     }
 }
 
@@ -346,7 +363,7 @@ void clientOptions(user &currentUser, book booksList[]) {
             for(int i = 0; i < 100; i++) {
                 if(booksList[i].codeStr == code) {
                     if(booksList[i].status == "disponible") {
-                        booksList[i].status == "no disponible";
+                        booksList[i].status = "no disponible";
                         cout << "Libro comprado con exito.\n";
                     } else {
                         cout << "El libro no esta disponible.\n";
@@ -362,8 +379,7 @@ void clientOptions(user &currentUser, book booksList[]) {
             for(int i = 0; i < 100; i++) {
                 if(booksList[i].codeStr == code) {
                     if(booksList[i].status == "disponible") {
-                        booksList[i].status == "no disponible";
-                        currentUser.accState = "suspendido";  // Simulación de no devolución
+                        booksList[i].status = "no disponible";
                         cout << "Libro retirado. Recuerde devolverlo a tiempo.\n";
                     } else {
                         cout << "El libro no se encuentra disponible ahora mismo....\n";
@@ -378,11 +394,12 @@ void clientOptions(user &currentUser, book booksList[]) {
             cin >> code;
             for(int i = 0; i < 100; i++) {
                 if(booksList[i].codeStr == code) {
-                    booksList[i].status == "disponible";
-                    currentUser.accState = "activo";
+                    if(booksList[i].status == "no disponible"){
+                    booksList[i].status = "disponible";
                     cout << "Libro devuelto con éxito.\n";
                     saveBooks(booksList);
                     break;
+                    }
                 }
             }
         }
