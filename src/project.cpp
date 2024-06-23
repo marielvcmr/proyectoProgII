@@ -28,7 +28,7 @@ void arrayCreation(user usersList[]){
     string rol; 
     
     fstream inUsersList;   // creacion del filehand
-    inUsersList.open("C:/Users/maria/OneDrive/Desktop/projectP2/assets/dataProject.csv", ios:: in);     // abrimos el file
+    inUsersList.open("../assets/dataProject.csv", ios:: in);     // abrimos el file
 
     if(!inUsersList.is_open()){
         cout<<"No se encontro el archivo solicitado"<<endl;
@@ -37,7 +37,7 @@ void arrayCreation(user usersList[]){
     getline(inUsersList, usuarioDatos);   // leemos la primera linea, que tiene los caracteristicas de los datos de la estructura
     int line = 0;    // indice del nro de linea de datos a ingresar en el arreglo
 
-    while(!inUsersList.eof() && line<98 ){
+    while(!inUsersList.eof() ){
         getline(inUsersList, usuarioDatos);   // del archivo inUsersList tomo una linea para usuarioDatos
         stringstream s(usuarioDatos);     
         getline(s, nombre, ',');
@@ -126,11 +126,91 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
     cout<<"____________________________________________"<<endl;
 }
 
+void accountCreation(user usersList[]){
+    fstream inUsersList;
+    inUsersList.open("../assets/dataProject.csv", ios::app);
+
+    if(!inUsersList.is_open()){
+        cout<<"No se encontro el archivo solicitado"<<endl;
+    }
+
+    int totalUsers = 0;
+    while(usersList[totalUsers].name != ""){
+        totalUsers += 1;
+    }  // obtenemos indice del primer elemento vacio del arreglo con los usuarios
+
+    inUsersList<<endl;
+
+    cout<<"Ingrese el nombre del nuevo usuario: ";
+    cin>>usersList[totalUsers].name;
+
+    cout<<"Ingrese el apellido del nuevo usuario: ";
+    cin>>usersList[totalUsers].surname;
+
+    cout<<"Ingrese el id del nuevo usuario: ";
+    cin>>usersList[totalUsers].id;
+
+    cout<<"Ingrese el nombre de usuario para esta cuenta: ";
+    cin>>usersList[totalUsers].username;
+
+    cout<<"Ingrese la contrasena que utilizara este nuevo usuario: ";
+    cin>>usersList[totalUsers].password;
+
+    usersList[totalUsers].accState = "activa";
+
+    cout<<"Indique el tipo de usuario a ser registrado: ";
+    cin>>usersList[totalUsers].role;
+    cout<<endl<<"--------------------------------------------------"<<endl;
+
+    inUsersList<<usersList[totalUsers].name<<","<<usersList[totalUsers].surname<<","<<usersList[totalUsers].id<<","<<usersList[totalUsers].username<<","<<usersList[totalUsers].password<<","<<usersList[totalUsers].accState<<","<<usersList[totalUsers].role;
+
+    inUsersList.close();
+}
+
+void accountDeletion(user usersList[], string delUser){
+    cout<<"Ingrese el nombre de usuario de la cuenta a ser eliminada: ";
+    cin>>delUser;
+
+    fstream outUsersList; 
+    outUsersList.open("../assets/dataProject.csv", ios::out);
+
+    if(!outUsersList.is_open()){
+        cout<<"No se pudo abrir el archivo requerido"<<endl;
+    }
+
+    int totalUsers = 0;
+    while(usersList[totalUsers].name != ""){
+        totalUsers += 1;     // nro de usuarios registrados, o elementos del arreglo
+    }
+    
+    outUsersList<<"first_name,last_name,id,username,password,status,role"; // header file
+
+    for(int i = 0; i<totalUsers; i++){     //escribir todos los usuarios 
+        if(usersList[i].username != delUser){   //excepto el que sera eliminado
+            outUsersList<<endl<<usersList[i].name<<","<<usersList[i].surname<<","<<usersList[i].id<<","<<usersList[i].username<<","<<usersList[i].password<<","<<usersList[i].accState<<","<<usersList[i].role;
+        }
+    }
+    outUsersList.close(); // cerramos el archivo
+    
+    //eliminamos uno de los elementos del arreglo de usuarios
+    usersList[totalUsers-1].name = "";
+    usersList[totalUsers-1].surname = "";
+    usersList[totalUsers-1].id = "";
+    usersList[totalUsers-1].username = "";
+    usersList[totalUsers-1].password = "";
+    usersList[totalUsers-1].accState = "";
+    usersList[totalUsers-1].role = "";
+    //reescribimos sin el usuario que decidimos borrar del file con los registros
+    arrayCreation(usersList);
+
+    cout<<"--------------------------------------------------"<<endl;
+}
+
 
 int main(){
 
     // Arreglo para trabajar durante el programa
-    user usersList[100];
+    user usersList[200];
     arrayCreation(usersList); 
 
     //for (int i = 0;i <100; i++){                      /*this was just to verify that arrayCreation worked as it was*/
@@ -166,7 +246,6 @@ int main(){
 
     // A partir del indice anterior, ver tipo de usuario y estado de cuenta, y presentar opciones
     /*code*/
-
-
     
+
 }
