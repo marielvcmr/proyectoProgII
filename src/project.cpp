@@ -99,15 +99,15 @@ void signIn(string &inUsername, string &inPassword, int &userIndex, user usersLi
     for (int i = 0; i<6; i++) {
         cout<<" "; 
     }
-    cout<<"¡Bienvenido a la Biblioteca!";
+    cout<<"Bienvenido a la Biblioteca!";
     for (int i = 0; i<6; i++) {
         cout<<" "; 
     }
-    cout<<" |"<<endl;         
+    cout<<"|"<<endl;         
 
     cout<<". ";
     for(int i = 0; i<40; i++) {
-        cout<<"_"; 
+        cout<<"-"; 
     }
     cout<<" ."<<endl<<endl;    
 
@@ -282,10 +282,10 @@ void deleteBook(book booksList[]) {
     int code;
     cout << "Ingrese el codigo del libro a eliminar: ";
     cin >> code;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Limite de entrada
     for(int i = 0; i < 200; i++) {
         if(booksList[i].code == code) {
-            booksList[i].codeStr = "";
+            booksList[i].codeStr = ""; //Marca el libro como eliminado
             saveBooks(booksList);
             break;
         }
@@ -296,7 +296,7 @@ void modifyBook(book booksList[]) {
     int code;
     cout << "Ingrese el codigo del libro a modificar: ";
     cin >> code;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); //Limite de entrada
 
     for(int i = 0; i < 200; i++) {
         if(booksList[i].code == code) {
