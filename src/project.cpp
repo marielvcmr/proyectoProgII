@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -18,8 +19,16 @@ struct user {
 struct book {
     string title;
     string author;
-    string isbn;
-    int quantity;
+    int year;
+    string genre;
+    float rentprice;
+    float purchaseprice;
+    int code;
+    string status;
+    string yearStr = to_string(year);
+    string rpriceStr = to_string(rentprice);
+    string ppriceStr = to_string(purchaseprice);
+    string codeStr = to_string(code);  
 };
 
 
@@ -53,23 +62,27 @@ void arrayCreation(user usersList[]) {
 
 void arrayCreationBooks(book booksList[]) {
     string bookData;
-    string title, author, isbn, quantityStr;
+    string title, author, year, genre, rprice, pprice, code, status;
     
     fstream inBooksList;
     inBooksList.open("./assets/books.csv", ios::in);
 
-    getline(inBooksList, bookData);
+    getline(inBooksList, bookData); // Leer la cabecera
     int line = 0;
 
-    while(!inBooksList.eof() && line < 98) {
-        getline(inBooksList, bookData);
+    while(getline(inBooksList, bookData) && line < 98) {
         stringstream s(bookData);
         getline(s, title, ',');
         getline(s, author, ',');
-        getline(s, isbn, ',');
-        getline(s, quantityStr, ',');
+        getline(s, year, ',');
+        getline(s, genre, ',');
+        getline(s, rprice, ',');
+        getline(s, pprice, ',');
+        getline(s, code, ',');
+        getline(s, status, ',');
 
-
+        booksList[line] = {title, author, stoi(year), genre, stof(rprice), stof(pprice), stoi(code), status};
+        line += 1;
     }
 
     inBooksList.close();
@@ -127,27 +140,37 @@ while(usersList[i].username != "") {
 
 void saveUsers(user usersList[]) {
     ofstream outUsersList("./assets/dataProject.csv", ios::out);
-    outUsersList << "nombre,apellido,cedula,clave,estatus,rol" << endl;
-    for(int i = 0; i < 100 && usersList[i].username != ""; i++) {
-        outUsersList << usersList[i].name << ',' << usersList[i].last_name << ',' 
-                     << usersList[i].id << ',' << usersList[i].password << ',' 
-                     << usersList[i].accState << ',' << usersList[i].role << endl;
+    outUsersList << "nombre,apellido,cedula,usuario,clave,estatus,rol" << endl;
+
+    for(int i = 0; i < 200 && !usersList[i].username.empty(); i++) {
+        outUsersList << usersList[i].name << ',' << usersList[i].last_name << ','
+                     << usersList[i].id << ',' << usersList[i].username << ','
+                     << usersList[i].password << ',' << usersList[i].accState << ','
+                     << usersList[i].role << endl;
     }
+
     outUsersList.close();
 }
 
 void saveBooks(book booksList[]) {
     ofstream outBooksList("./assets/books.csv", ios::out);
-    outBooksList << "titulo,autor,isbn,cantidad" << endl;
-    for(int i = 0; i < 100 && booksList[i].isbn != ""; i++) {
-        outBooksList << booksList[i].title << ',' << booksList[i].author << ',' 
-                     << booksList[i].isbn << ',' << booksList[i].quantity << endl;
+    outBooksList << "titulo,autor,año,genero,precio_renta,precio_compra,code,estado" << endl;
+
+    for(int i = 0; i < 200; i++) {
+        if (!booksList[i].title.empty()) {
+            outBooksList << booksList[i].title << ',' << booksList[i].author << ','
+                         << booksList[i].year << ','  << booksList[i].genre << ','
+                         << booksList[i].rentprice << ',' << booksList[i].purchaseprice << ','
+                         << booksList[i].code << ',' << booksList[i].status << endl;
+        }
     }
+
     outBooksList.close();
 }
 
+
 void addUser(user usersList[]) {
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < 200; i++) {
         if(usersList[i].username == "") {
             cout << "Ingrese nombre: ";
             cin >> usersList[i].name;
@@ -172,7 +195,7 @@ void deleteUser(user usersList[]) {
     string username;
     cout << "Ingrese el nombre de usuario a eliminar: ";
     cin >> username;
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < 200; i++) {
         if(usersList[i].username == username) {
             usersList[i].username = "";
             saveUsers(usersList);
@@ -185,27 +208,53 @@ void suspendUser(user usersList[]) {
     string username;
     cout << "Ingrese el nombre de usuario a suspender: ";
     cin >> username;
-    for(int i = 0; i < 100; i++) {
+
+    for(int i = 0; i < 200; i++) {
         if(usersList[i].username == username) {
-            usersList[i].accState = "suspendido";
-            saveUsers(usersList);
+            usersList[i].accState = "suspendida"; // Actualizar solo el estado a suspendida
             break;
         }
     }
+
+    saveUsers(usersList); // Guardar los cambios en el archivo
+}
+
+void activateUser(user usersList[]) {
+    string username;
+    cout << "Ingrese el nombre de usuario a reactivar: ";
+    cin >> username;
+
+    for(int i = 0; i < 200; i++) {
+        if(usersList[i].username == username) {
+            usersList[i].accState = "activa"; // Actualizar solo el estado a activa
+            break;
+        }
+    }
+
+    saveUsers(usersList); // Guardar los cambios en el archivo
 }
 
 void addBook(book booksList[]) {
-    for(int i = 0; i < 100; i++) {
-        if(booksList[i].isbn == "") {
+    for(int i = 0; i < 200; i++) {
+        if(booksList[i].codeStr == "") {
             cout << "Ingrese titulo: ";
             cin.ignore();
             getline(cin, booksList[i].title);
             cout << "Ingrese autor: ";
             getline(cin, booksList[i].author);
-            cout << "Ingrese ISBN: ";
-            cin >> booksList[i].isbn;
-            cout << "Ingrese cantidad: ";
-            cin >> booksList[i].quantity;
+            cout << "Ingrese año: ";
+            getline(cin, booksList[i].yearStr);
+            cout << "Ingrese genero: ";
+            getline(cin, booksList[i].genre);
+            cout << "Ingrese precio de renta: ";
+            getline(cin, booksList[i].rpriceStr);
+            cout <<"Ingrese precio de compra: ";
+            getline(cin, booksList[i].ppriceStr);
+            cout <<"Ingrese el codigo del libro: ";
+            getline(cin, booksList[i].codeStr);
+            cout <<"Ingrese el estado del libro: ";
+            getline(cin, booksList[i].status);
+            booksList[i].code = stoi(booksList[i].codeStr);
             saveBooks(booksList);
             break;
         }
@@ -213,12 +262,13 @@ void addBook(book booksList[]) {
 }
 
 void deleteBook(book booksList[]) {
-    string isbn;
-    cout << "Ingrese el ISBN del libro a eliminar: ";
-    cin >> isbn;
-    for(int i = 0; i < 100; i++) {
-        if(booksList[i].isbn == isbn) {
-            booksList[i].isbn = "";
+    int code;
+    cout << "Ingrese el codigo del libro a eliminar: ";
+    cin >> code;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    for(int i = 0; i < 200; i++) {
+        if(booksList[i].code == code) {
+            booksList[i].codeStr = "";
             saveBooks(booksList);
             break;
         }
@@ -226,23 +276,63 @@ void deleteBook(book booksList[]) {
 }
 
 void modifyBook(book booksList[]) {
-    string isbn;
-    cout << "Ingrese el ISBN del libro a modificar: ";
-    cin >> isbn;
-    for(int i = 0; i < 100; i++) {
-        if(booksList[i].isbn == isbn) {
-            cout << "Ingrese nuevo titulo: ";
-            cin.ignore();
-            getline(cin, booksList[i].title);
-            cout << "Ingrese nuevo autor: ";
-            getline(cin, booksList[i].author);
-            cout << "Ingrese nueva cantidad: ";
-            cin >> booksList[i].quantity;
+    int code;
+    cout << "Ingrese el codigo del libro a modificar: ";
+    cin >> code;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for(int i = 0; i < 200; i++) {
+        if(booksList[i].code == code) {
+            string input;
+
+            cout << "Ingrese nuevo titulo (deje en blanco para mantener) " << booksList[i].title << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].title = input;
+            }
+
+            cout << "Ingrese nuevo autor (deje en blanco para mantener) " << booksList[i].author << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].author = input;
+            }
+
+            cout << "Ingrese nuevo año (deje en blanco para mantener) " << booksList[i].year << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].year = stoi(input);
+            }
+
+            cout << "Ingrese nuevo genero (deje en blanco para mantener) " << booksList[i].genre << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].genre = input;
+            }
+
+            cout << "Ingrese nuevo precio de renta (deje en blanco para mantener) " << booksList[i].rentprice << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].rentprice = stof(input);
+            }
+
+            cout << "Ingrese nuevo precio de compra (deje en blanco para mantener) " << booksList[i].purchaseprice << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].purchaseprice = stof(input);
+            }
+
+            cout << "Ingrese nuevo estado del libro (deje en blanco para mantener " << booksList[i].status << "): ";
+            getline(cin, input);
+            if (!input.empty()) {
+                booksList[i].status = input;
+            }
+
             saveBooks(booksList);
             break;
         }
     }
 }
+
 
 void clientOptions(user &currentUser, book booksList[]) {
     int option;
@@ -250,45 +340,45 @@ void clientOptions(user &currentUser, book booksList[]) {
         cout << "Seleccione una opcion: \n1. Comprar libro\n2. Retirar libro\n3. Devolver libro\n4. Salir\n";
         cin >> option;
         if(option == 1) {
-            string isbn;
-            cout << "Ingrese el ISBN del libro a comprar: ";
-            cin >> isbn;
+            string code;
+            cout << "Ingrese el codigo del libro a comprar: ";
+            cin >> code;
             for(int i = 0; i < 100; i++) {
-                if(booksList[i].isbn == isbn) {
-                    if(booksList[i].quantity > 0) {
-                        booksList[i].quantity--;
+                if(booksList[i].codeStr == code) {
+                    if(booksList[i].status == "disponible") {
+                        booksList[i].status == "no disponible";
                         cout << "Libro comprado con éxito.\n";
                     } else {
-                        cout << "No hay suficientes copias disponibles.\n";
+                        cout << "El libro no esta disponible.\n";
                     }
                     saveBooks(booksList);
                     break;
                 }
             }
         } else if(option == 2) {
-            string isbn;
-            cout << "Ingrese el ISBN del libro a retirar: ";
-            cin >> isbn;
+            string code;
+            cout << "Ingrese el codigo del libro a retirar: ";
+            cin >> code;
             for(int i = 0; i < 100; i++) {
-                if(booksList[i].isbn == isbn) {
-                    if(booksList[i].quantity > 0) {
-                        booksList[i].quantity--;
+                if(booksList[i].codeStr == code) {
+                    if(booksList[i].status == "disponible") {
+                        booksList[i].status == "no disponible";
                         currentUser.accState = "suspendido";  // Simulación de no devolución
                         cout << "Libro retirado. Recuerde devolverlo a tiempo.\n";
                     } else {
-                        cout << "No hay suficientes copias disponibles.\n";
+                        cout << "El libro no se encuentra disponible ahora mismo....\n";
                     }
                     saveBooks(booksList);
                     break;
                 }
             }
         } else if(option == 3) {
-            string isbn;
-            cout << "Ingrese el ISBN del libro a devolver: ";
-            cin >> isbn;
+            string code;
+            cout << "Ingrese el codigo del libro a devolver: ";
+            cin >> code;
             for(int i = 0; i < 100; i++) {
-                if(booksList[i].isbn == isbn) {
-                    booksList[i].quantity++;
+                if(booksList[i].codeStr == code) {
+                    booksList[i].status == "disponible";
                     currentUser.accState = "activo";
                     cout << "Libro devuelto con éxito.\n";
                     saveBooks(booksList);
@@ -304,8 +394,9 @@ void clientOptions(user &currentUser, book booksList[]) {
 void employeeOptions(book booksList[]) {
     int option;
     do {
-        cout << "Seleccione una opción: \n1. Agregar libro\n2. Eliminar libro\n3. Modificar libro\n4. Salir\n";
+        cout << "Seleccione una opcion: \n1. Agregar libro\n2. Eliminar libro\n3. Modificar libro\n4. Salir\n";
         cin >> option;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if(option == 1) {
             addBook(booksList);
         } else if(option == 2) {
@@ -319,7 +410,7 @@ void employeeOptions(book booksList[]) {
 void adminOptions(user usersList[], book booksList[]) {
     int option;
     do {
-        cout << "Seleccione una opción: \n1. Agregar usuario\n2. Eliminar usuario\n3. Suspender usuario\n4. Agregar libro\n5. Eliminar libro\n6. Modificar libro\n7. Salir\n";
+        cout << "Seleccione una opcion: \n1. Agregar usuario\n2. Eliminar usuario\n3. Suspender usuario\n4. Reactivar usuario\n5. Agregar libro\n6. Eliminar libro\n7. Modificar libro\n8. Salir\n";
         cin >> option;
         if(option == 1) {
             addUser(usersList);
@@ -328,18 +419,20 @@ void adminOptions(user usersList[], book booksList[]) {
         } else if(option == 3) {
             suspendUser(usersList);
         } else if(option == 4) {
-            addBook(booksList);
+            activateUser(usersList);
         } else if(option == 5) {
-            deleteBook(booksList);
+            addBook(booksList);
         } else if(option == 6) {
+            deleteBook(booksList);
+        } else if(option == 7) {
             modifyBook(booksList);
         }
-    } while(option != 7);
+    } while(option != 8);
 }
 
 int main() {
-    user usersList[100] = {};
-    book booksList[100] = {};
+    user usersList[200] = {};
+    book booksList[200] = {};
     arrayCreation(usersList);
     arrayCreationBooks(booksList);
 

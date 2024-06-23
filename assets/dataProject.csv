@@ -1,4 +1,4 @@
-first_name,last_name,id,username,password,status,role
+nombre,apellido,cedula,usuario,clave,estatus,rol
 Willdon,Skone,81003588,wskone0,dX8!<bxH,suspendida,cliente
 Philis,Crumb,36366564,pcrumb1,gJ9$FQs4,suspendida,empleado
 Liliane,Speers,67800769,lspeers2,oY0!f5Hj',activa,cliente
@@ -15,7 +15,7 @@ Felicle,Dullard,31625790,fdullardc,wA2#FY{9R,suspendida,cliente
 Charlton,Ezzle,40522023,cezzled,yV1%&E,activa,empleado
 Dedie,Moore,69098855,dmooree,"jG8+""8i*",activa,cliente
 Jonathan,Dymond,12914528,jdymondf,dB4@.,suspendida,empleado
-Edita,Karpe,75940569,ekarpeg,uB8=KVyk,activa,admin
+Edita,Karpe,75940569,ekarpeg,ecatepec,activa,admin
 Gay,Pabel,46503291,gpabelh,tJ1{/s,suspendida,cliente
 Dannel,Ducket,33503646,elduki,lpasswo,activa,empleado
 Edan,Hearsum,50831275,ehearsumj,pL3%.Ox,suspendida,cliente
@@ -43,7 +43,7 @@ Gustav,O'Rodane,23173613,gorodane14,zQ4.0,activa,empleado
 Ram,Nolda,4037702,rnolda15,yU7<U,activa,cliente
 Anatola,Flanders,73648205,aflanders16,jL5<\,activa,cliente
 Candide,Wilcockes,74271914,cwilcockes17,fI6/rMmMG,suspendida,cliente
-Tadio,Resun,11687286,tresun18,"iL9,J`f",suspendida,cliente
+Tadio,Resun,11687286,tresun18,"iL9,J`f",suspendida
 Lucine,Frediani,78207503,lfrediani19,gP3|_Ey*,activa,empleado
 Kipper,Strelitzer,67925319,kstrelitzer1a,tH8>6|,activa,empleado
 Karleen,Speakman,63841683,kspeakman1b,fK3#fd,suspendida,empleado
@@ -73,7 +73,7 @@ Jorrie,Cargon,24395868,jcargon1y,"aN2%l*P8F""",suspendida,empleado
 Bradford,Langdridge,68008877,blangdridge1z,tT5>R'?N,suspendida,empleado
 Julio,O'Dempsey,60196214,jodempsey20,mL417sAGt,suspendida,cliente
 Edmon,Feehily,41961481,efeehily21,xW5%5C@X,activa,empleado
-Bili,Jeans,89905170,bjeans22,"vP5,16",suspendida,empleado
+Bili,Jeans,89905170,bjeans22,"vP5,16",suspendida
 Mela,Edmett,57368458,medmett23,sJ1_t9,activa,admin
 Fallon,Faucett,707044,ffaucett24,jS1=R*K,suspendida,cliente
 Ervin,Gori,43904654,egori25,kA5*NolTg,activa,cliente
@@ -81,19 +81,20 @@ Pearl,Challiner,83964834,pchalliner26,wO6{y?1&,activa,empleado
 Clarice,Skocroft,36678815,cskocroft27,vK6%3mz,suspendida,empleado
 Lucine,Keuntje,48377188,lkeuntje28,zG8'ot,activa,cliente
 Buddy,Keerl,6066431,bkeerl29,"rT8%Zi""3S",suspendida,cliente
-Lucienne,Claybourn,14865664,lclaybourn2a,"xY9\,R>IpZ",activa,cliente
+Lucienne,Claybourn,14865664,lclaybourn2a,"xY9\,R>IpZ",activa
 Thatch,Boyne,22325342,tboyne2b,hS1$0XTQz},activa,empleado
 Ortensia,Basindale,83369900,obasindale2c,fB9\lpFe,activa,empleado
 Rainer,Fintoph,26120830,rfintoph2d,kC1*'qnt,suspendida,empleado
 Deane,Rudham,52367927,drudham2e,jZ0&Vx,activa,empleado
 Gertrude,Jorat,53536385,gjorat2f,dP8##iL1\,suspendida,empleado
-Allyn,Jonah,38104310,ajonah2g,"iO9,Us",activa,cliente
+Allyn,Jonah,38104310,ajonah2g,"iO9,Us",activa
 Brad,Bewlay,34722096,bbewlay2h,"cV2!8""PZ",activa,cliente
 Leelah,Chiplen,99776567,lchiplen2i,uD3Y,activa,empleado
 Colleen,Ivanaev,12783508,civanaev2j,sB0!*MZ.,activa,empleado
 Selene,McNelis,52279716,smcnelis2k,oJ1'J3,activa,cliente
 Alexia,Zuann,83202462,azuann2l,fQ2`3n|i8_,activa,cliente
 James,Grancher,39233197,jgrancher2m,qN0=i0&.HS,activa,cliente
-Reiko,Dabs,4995860,rdabs2n,bJ3!\SdqdM,activa,cliente
+Reiko,Dabs,4995860,rdabs2n,bJ3!\SdqdM,suspendida,cliente
 Verney,Ace,61578412,vace2o,eS6YMK8mB,activa,cliente
 Lissy,Kubin,25558170,lkubin2p,kS5&.?JK,activa,admin
+Shawn,Fonteno,99281232,fclinton,chopthedog,activo,admin
