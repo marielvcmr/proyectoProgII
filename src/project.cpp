@@ -107,7 +107,7 @@ void signIn(string &inUsername, string &inPassword, int &userIndex, user usersLi
 
     cout<<". ";
     for(int i = 0; i<40; i++) {
-        cout<<"-"; 
+        cout<<"_"; 
     }
     cout<<" ."<<endl<<endl;    
 
@@ -285,37 +285,37 @@ void modifyBook(book booksList[]) {
         if(booksList[i].code == code) {
             string input;
 
-            cout << "Ingrese nuevo titulo (deje en blanco para mantener) " << booksList[i].title << "): ";
+            cout << "Ingrese nuevo titulo (deje en blanco para mantener " << booksList[i].title << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].title = input;
             }
 
-            cout << "Ingrese nuevo autor (deje en blanco para mantener) " << booksList[i].author << "): ";
+            cout << "Ingrese nuevo autor (deje en blanco para mantener " << booksList[i].author << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].author = input;
             }
 
-            cout << "Ingrese nuevo año (deje en blanco para mantener) " << booksList[i].year << "): ";
+            cout << "Ingrese nuevo año (deje en blanco para mantener " << booksList[i].year << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].year = stoi(input);
             }
 
-            cout << "Ingrese nuevo genero (deje en blanco para mantener) " << booksList[i].genre << "): ";
+            cout << "Ingrese nuevo genero (deje en blanco para mantener " << booksList[i].genre << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].genre = input;
             }
 
-            cout << "Ingrese nuevo precio de renta (deje en blanco para mantener) " << booksList[i].rentprice << "): ";
+            cout << "Ingrese nuevo precio de renta (deje en blanco para mantener " << booksList[i].rentprice << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].rentprice = stof(input);
             }
 
-            cout << "Ingrese nuevo precio de compra (deje en blanco para mantener) " << booksList[i].purchaseprice << "): ";
+            cout << "Ingrese nuevo precio de compra (deje en blanco para mantener " << booksList[i].purchaseprice << "): ";
             getline(cin, input);
             if (!input.empty()) {
                 booksList[i].purchaseprice = stof(input);
@@ -347,7 +347,7 @@ void clientOptions(user &currentUser, book booksList[]) {
                 if(booksList[i].codeStr == code) {
                     if(booksList[i].status == "disponible") {
                         booksList[i].status == "no disponible";
-                        cout << "Libro comprado con éxito.\n";
+                        cout << "Libro comprado con exito.\n";
                     } else {
                         cout << "El libro no esta disponible.\n";
                     }
