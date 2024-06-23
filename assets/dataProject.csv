@@ -1,4 +1,5 @@
 nombre,apellido,cedula,usuario,clave,estatus,rol
+Shawn,Fonteno,19281232,fclinton,gta5,activa,admin
 Willdon,Skone,81003588,wskone0,dX8!<bxH,suspendida,cliente
 Philis,Crumb,36366564,pcrumb1,gJ9$FQs4,suspendida,empleado
 Liliane,Speers,67800769,lspeers2,oY0!f5Hj',activa,cliente
@@ -94,7 +95,4 @@ Colleen,Ivanaev,12783508,civanaev2j,sB0!*MZ.,activa,empleado
 Selene,McNelis,52279716,smcnelis2k,oJ1'J3,activa,cliente
 Alexia,Zuann,83202462,azuann2l,fQ2`3n|i8_,activa,cliente
 James,Grancher,39233197,jgrancher2m,qN0=i0&.HS,activa,cliente
-Reiko,Dabs,4995860,rdabs2n,bJ3!\SdqdM,suspendida,cliente
 Verney,Ace,61578412,vace2o,eS6YMK8mB,suspendida,cliente
-Lissy,Kubin,25558170,lkubin2p,kS5&.?JK,activa,cliente
-Shawn,Fonteno,99281232,fclinton,chopthedog,activo,admin
