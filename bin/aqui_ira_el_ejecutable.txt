@@ -1,0 +1,3 @@
+En esta carpeta estara el ejecutable del codigo.
+
+usando: g++ -o .\bin\project.exe .\src\project.cpp
