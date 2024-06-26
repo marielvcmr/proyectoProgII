@@ -678,10 +678,6 @@ int main()
             clientOptions(usersList[indiceUsuario], booksList, usersList);
         }
     }
-    else
-    {
-        cout << "Autenticación fallida. Sus datos son incorrectos." << endl;
-    }
+    
 
-    return 0;
 }
