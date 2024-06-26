@@ -4,6 +4,7 @@
 #include <string>
 #include <limits> //Es un tipo de límite numérico que proporciona información sobre las propiedades de los tipos aritméticos (ya sean int o de tipo float) en la plataforma específica para la que compila la biblioteca.
 #include <cstdlib>
+#include <stdexcept> //Define un tipo de objeto que se lanzará como excepción.
 
 using namespace std;
 
@@ -43,7 +44,7 @@ void arrayCreation(user usersList[])
     string nombre, apellido, cedula, usuario, clave, estatus, rol, balance;
 
     fstream inUsersList;
-    inUsersList.open("../assets/dataProject.csv", ios::in);
+    inUsersList.open("./assets/dataProject.csv", ios::in);
 
     getline(inUsersList, usuarioDatos); // Leer la cabecera
     int line = 0;
@@ -65,7 +66,7 @@ void arrayCreation(user usersList[])
         {
             saldoUsuario = stof(balance);
         }
-        catch (const std::invalid_argument &e)
+        catch (const invalid_argument &e)
         {
             cerr << "Error al convertir balance a float: " << e.what() << endl;
             // Manejo del error, como asignar un valor predeterminado o registrar el problema
@@ -84,7 +85,7 @@ void arrayCreationBooks(book booksList[])
     string title, author, year, genre, rprice, pprice, code, status, rentedBy;
 
     fstream inBooksList;
-    inBooksList.open("../assets/books.csv", ios::in);
+    inBooksList.open("./assets/books.csv", ios::in);
 
     getline(inBooksList, bookData); // Leer la cabecera
     int line = 0;
@@ -184,7 +185,7 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
 
 void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
 {
-    ofstream outUsersList("../assets/dataProject.csv", ios::out);
+    ofstream outUsersList("./assets/dataProject.csv", ios::out);
 
     if (!outUsersList.is_open())
     {
@@ -211,7 +212,7 @@ void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
 
 void saveBooks(book booksList[])  //Guarda un arreglo de libros en el archivo 
 {
-    ofstream outBooksList("../assets/books.csv", ios::out);
+    ofstream outBooksList("./assets/books.csv", ios::out);
 
     if (!outBooksList.is_open())
     {
