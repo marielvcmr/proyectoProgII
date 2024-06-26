@@ -1,5 +1,5 @@
 name,last_name,id,username,password,accState,role,balance
-Shawn,Fonteno,19281232,fclinton,gta5,activa,admin,0
+Shawn,Fonteno,19281232,fclinton,gta5,activa,administrador,0
 Willdon,Skone,81003588,wskone0,dX8!<bxH,suspendida,cliente,50.32
 Philis,Crumb,36366564,pcrumb1,gJ9$FQs4,suspendida,empleado,132.88
 Liliane,Speers,67800769,lspeers2,oY0!f5Hj',activa,cliente,172.21
@@ -46,7 +46,7 @@ Anatola,Flanders,73648205,aflanders16,jL5<\,activa,cliente,39.01
 Candide,Wilcockes,74271914,cwilcockes17,fI6/rMmMG,suspendida,cliente,76.94
 Tadio,Resun,11687286,tresun18,"iL9,J`f",suspendida,0
 Lucine,Frediani,78207503,lfrediani19,gP3|_Ey*,activa,empleado,94.21
-Kipper,Strelitzer,67925319,kstrelitzer1a,tH8>6|,activa,empleado,20.26
+Kipper,Strelitzer,67925319,kstrelitzer1a,tH8>6|,activa,empleado,19.25
 Karleen,Speakman,63841683,kspeakman1b,fK3#fd,suspendida,empleado,28.32
 Billi,Dearth,7003935,bdearth1c,iO1&@8If<,activa,empleado,59.44
 Britte,Weigh,42330193,bweigh1d,uF9?=*&q,activa,cliente,77.34
@@ -92,7 +92,7 @@ Allyn,Jonah,38104310,ajonah2g,"iO9,Us",activa,0
 Brad,Bewlay,34722096,bbewlay2h,"cV2!8""PZ",activa,cliente,44.94
 Leelah,Chiplen,99776567,lchiplen2i,uD3Y,activa,empleado,54.21
 Colleen,Ivanaev,12783508,civanaev2j,sB0!*MZ.,activa,empleado,23.16
-Selene,McNelis,52279716,smcnelis2k,oJ1'J3,activa,cliente,93.94
+Selene,McNelis,52279716,smcnelis2k,oJ1'J3,activa,cliente,75.64
 Alexia,Zuann,83202462,azuann2l,fQ2`3n|i8_,activa,cliente,21.36
 James,Grancher,39233197,jgrancher2m,qN0=i0&.HS,activa,cliente,187.44
 Verney,Ace,61578412,vace2o,elpepe,activa,cliente,195.21

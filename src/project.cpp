@@ -173,6 +173,7 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
         else
         {
             cout<<"Ahora puedes disfrutar de todo lo que te ofrece la Biblioteca"<<endl;
+            cout<<"Tipo de usuario: "<<usersList[userIndex].role<<endl;
         }
     }
     else
@@ -474,112 +475,130 @@ void modifyBook(book booksList[])
     }
 }
 
+void buy_book(user &currentUser, book booksList[], user usersList[]){
+
+    string code;
+    cout << "Ingrese el codigo del libro a comprar: ";
+    cin >> code;
+    for (int i = 0; i < 200; i++)
+    {
+        if (booksList[i].codeStr == code)
+        {
+            if (booksList[i].status == "disponible")
+            {
+                if (currentUser.balance >= booksList[i].purchaseprice)
+                {
+                    currentUser.balance -= booksList[i].purchaseprice;
+                    booksList[i].status = "no disponible - VENDIDO";
+                    booksList[i].codeStr = ""; // Marca el libro como eliminado
+                    cout << "Libro comprado exitosamente.\n";
+                    saveBooks(booksList); // Guarda los cambios en books.csv
+                    arrayCreationBooks(booksList); //Guarda los cambios en el arreglo de libros
+                    saveUsers(usersList); // Guarda los cambios en dataProject.csv
+                }
+                else
+                {
+                    cout << "Saldo insuficiente para comprar el libro.\n";
+                }
+            }
+            else
+            {
+            cout << "El libro no está disponible para la compra.\n";
+            }
+            break;
+        }
+    }
+        
+}
+
+void withdraw_book(user &currentUser, book booksList[], user usersList[])
+{
+    string code;
+    cout << "Ingrese el codigo del libro a retirar: ";
+    cin >> code;
+    for (int i = 0; i < 200; i++)
+    {
+        if (booksList[i].codeStr == code)
+        {
+            if (booksList[i].status == "disponible")
+            {
+                if (currentUser.balance >= booksList[i].rentprice)
+                {
+                    currentUser.balance -= booksList[i].rentprice;
+                    booksList[i].status = "no disponible";
+                    booksList[i].rentedBy = currentUser.id;
+                    cout << "Libro retirado. Recuerde devolverlo a tiempo.\n";
+                    saveBooks(booksList); // Guarda los cambios en books.csv
+                    saveUsers(usersList); // Guarda los cambios en dataProject.csv
+                }
+                else
+                {
+                    cout << "Saldo insuficiente para retirar el libro.\n";
+                }
+            }
+            else
+            {
+                cout << "El libro no se encuentra disponible ahora mismo.\n";
+            }
+            break;
+        }
+    }
+}
+
+void returnBook(user &currentUser, book booksList[], user usersList[])
+{
+    string code;
+    cout << "Ingrese el codigo del libro a devolver: ";
+    cin >> code;
+    for (int i = 0; i < 200; i++)
+    {
+        if (booksList[i].codeStr == code)
+        {
+            if (booksList[i].status == "no disponible" && booksList[i].rentedBy == currentUser.id)
+            {
+                booksList[i].status = "disponible";
+                booksList[i].rentedBy = "";
+                cout << "Libro devuelto con éxito.\n";
+                saveBooks(booksList);
+                break;
+            }
+            else
+            {
+                cout << "No puede devolver este libro.\n";
+            }
+        }
+    }
+}
+
 void clientOptions(user &currentUser, book booksList[], user usersList[])
 {
     int option;
     do
-    {
-        cout << "Seleccione una opcion: \n1. Comprar libro\n2. Retirar libro\n3. Devolver libro\n4. Salir\n";
-        cin >> option;
-        if (option == 1)
-        {
-            string code;
-            cout << "Ingrese el codigo del libro a comprar: ";
-            cin >> code;
-            for (int i = 0; i < 200; i++)
-            {
-                if (booksList[i].codeStr == code)
-                {
-                    if (booksList[i].status == "disponible")
-                    {
-                        if (currentUser.balance >= booksList[i].purchaseprice)
-                        {
-                            currentUser.balance -= booksList[i].purchaseprice;
-                            booksList[i].status = "no disponible - VENDIDO";
-                            cout << "Libro comprado exitosamente.\n";
-                            saveBooks(booksList); // Guarda los cambios en books.csv
-                            saveUsers(usersList); // Guarda los cambios en dataProject.csv
-                        }
-                        else
-                        {
-                            cout << "Saldo insuficiente para comprar el libro.\n";
-                        }
-                    }
-                    else
-                    {
-                        cout << "El libro no está disponible para la compra.\n";
-                    }
-                    break;
-                }
-            }
+    {  
+        cout<<"Seleccione una opcion: \n1. Comprar libro\n2. Retirar libro\n3. Devolver libros\n4. Salir\n";
+        cin>>option;
+        if(option == 1){
+            buy_book(currentUser, booksList, usersList);
         }
         else if (option == 2)
         {
-            string code;
-            cout << "Ingrese el codigo del libro a retirar: ";
-            cin >> code;
-            for (int i = 0; i < 200; i++)
-            {
-                if (booksList[i].codeStr == code)
-                {
-                    if (booksList[i].status == "disponible")
-                    {
-                        if (currentUser.balance >= booksList[i].rentprice)
-                        {
-                            currentUser.balance -= booksList[i].rentprice;
-                            booksList[i].status = "no disponible";
-                            booksList[i].rentedBy = currentUser.id;
-                            cout << "Libro retirado. Recuerde devolverlo a tiempo.\n";
-                            saveBooks(booksList); // Guarda los cambios en books.csv
-                            saveUsers(usersList); // Guarda los cambios en dataProject.csv
-                        }
-                        else
-                        {
-                            cout << "Saldo insuficiente para retirar el libro.\n";
-                        }
-                    }
-                    else
-                    {
-                        cout << "El libro no se encuentra disponible ahora mismo.\n";
-                    }
-                    break;
-                }
-            }
+            withdraw_book(currentUser, booksList, usersList);
         }
         else if (option == 3)
         {
-            string code;
-            cout << "Ingrese el codigo del libro a devolver: ";
-            cin >> code;
-            for (int i = 0; i < 200; i++)
-            {
-                if (booksList[i].codeStr == code)
-                {
-                    if (booksList[i].status == "no disponible" && booksList[i].rentedBy == currentUser.id)
-                    {
-                        booksList[i].status = "disponible";
-                        booksList[i].rentedBy = "";
-                        cout << "Libro devuelto con éxito.\n";
-                        saveBooks(booksList);
-                        break;
-                    }
-                    else
-                    {
-                        cout << "No puede devolver este libro.\n";
-                    }
-                }
-            }
+            returnBook(currentUser, booksList, usersList);
         }
-
-    } while (option != 4);
+        cout<<endl;
+    } 
+    while (option != 4);
 }
 
-void employeeOptions(book booksList[])
+void employeeOptions(user &currentUser, book booksList[], user usersList[])
 {
     int option;
     do
     {
-        cout << "Seleccione una opcion: \n1. Agregar libro\n2. Eliminar libro\n3. Modificar libro\n4. Salir\n";
+        cout << "Seleccione una opcion: \n1. Agregar libro\n2. Eliminar libro\n3. Modificar libro\n4. Comprar libro\n5. Retirar libro\n6. Devolver libro\n7. Salir\n";
         cin >> option;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if (option == 1)
@@ -594,15 +613,28 @@ void employeeOptions(book booksList[])
         {
             modifyBook(booksList);
         }
-    } while (option != 4);
+        else if(option == 4)
+        {
+            buy_book(currentUser, booksList, usersList);
+        }
+        else if (option == 5)
+        {
+            withdraw_book(currentUser, booksList, usersList);
+        }
+        else if (option == 6)
+        {
+            returnBook(currentUser, booksList, usersList);
+
+        }
+    } while (option != 7);
 }
 
-void adminOptions(user usersList[], book booksList[])
+void adminOptions(user &currentUser, book booksList[], user usersList[])
 {
     int option;
     do
     {
-        cout << "Seleccione una opcion: \n1. Agregar usuario\n2. Eliminar usuario\n3. Suspender usuario\n4. Reactivar usuario\n5. Agregar libro\n6. Eliminar libro\n7. Modificar libro\n8. Cambiar saldo de usuario\n9. Salir\n";
+        cout << "Seleccione una opcion: \n1. Agregar nuevo usuario\n2. Eliminar usuario\n3. Suspender usuario\n4. Reactivar usuario\n5. Agregar libro\n6. Eliminar libro\n7. Modificar libro\n8. Comprar un libro\n9. Retirar un libro\n10. Devolver un libro\n11. Cambiar saldo de usuario\n12. Salir\n";
         cin >> option;
         if (option == 1)
         {
@@ -634,15 +666,28 @@ void adminOptions(user usersList[], book booksList[])
         }
         else if (option == 8)
         {
+            buy_book(currentUser, booksList, usersList);
+        }
+        else if(option == 9)
+        {
+            withdraw_book(currentUser, booksList, usersList);
+        }
+        else if(option == 10)
+        {
+            returnBook(currentUser, booksList, usersList);
+        }
+        else if(option == 11)
+        {
             changeBalance(usersList);
         }
-    } while (option != 9);
+
+    } while (option != 12);
 }
 
 int main()
 {
-    user usersList[200] = {};
-    book booksList[200] = {};
+    user usersList[200];
+    book booksList[200] ;
     arrayCreation(usersList);
     arrayCreationBooks(booksList);
 
@@ -653,10 +698,10 @@ int main()
 
     signIn(varUsuario, varClave, indiceUsuario, usersList);
 
-    if (indiceUsuario == -1)
+    if (indiceUsuario == -1)  // datos invalidos o cuenta suspendida
     {
         do
-        {
+        {      // ciclo para ingresar datos de nuevo o no
             cout << "¿Desea ingresar sus datos de nuevo?" << endl;
             cout << "Use 1 para indicar si, y 2 para indicar no: ";
             cin >> intentoError;
@@ -676,13 +721,13 @@ int main()
     if (indiceUsuario != -1)
     {
         // Aquí se ejecutan las opciones según el rol del usuario
-        if (usersList[indiceUsuario].role == "admin")
+        if (usersList[indiceUsuario].role == "administrador")
         {
-            adminOptions(usersList, booksList);
+            adminOptions(usersList[indiceUsuario], booksList, usersList);
         }
         else if (usersList[indiceUsuario].role == "empleado")
         {
-            employeeOptions(booksList);
+            employeeOptions(usersList[indiceUsuario], booksList, usersList);
         }
         else if (usersList[indiceUsuario].role == "cliente")
         {
