@@ -556,7 +556,7 @@ void buy_book(user &currentUser, book booksList[], user usersList[]){
                 {
                     currentUser.balance -= booksList[i].purchaseprice;
                     booksList[i].status = "no disponible - VENDIDO";
-                    booksList[i].codeStr = ""; // Marca el libro como eliminado
+                    booksList[i].title = ""; // Marca el libro como eliminado
                     cout << "Libro comprado exitosamente.\n";
                     saveBooks(booksList); // Guarda los cambios en books.csv
                     arrayCreationBooks(booksList); //Guarda los cambios en el arreglo de libros
