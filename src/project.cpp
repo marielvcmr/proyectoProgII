@@ -42,7 +42,7 @@ void arrayCreation(user usersList[])
     string nombre, apellido, cedula, usuario, clave, estatus, rol, balance;
 
     fstream inUsersList;
-    inUsersList.open("./assets/dataProject.csv", ios::in);
+    inUsersList.open("../assets/dataProject.csv", ios::in);
 
     getline(inUsersList, usuarioDatos); // Leer la cabecera
     int line = 0;
@@ -83,7 +83,7 @@ void arrayCreationBooks(book booksList[])
     string title, author, year, genre, rprice, pprice, code, status, rentedBy;
 
     fstream inBooksList;
-    inBooksList.open("./assets/books.csv", ios::in);
+    inBooksList.open("../assets/books.csv", ios::in);
 
     getline(inBooksList, bookData); // Leer la cabecera
     int line = 0;
@@ -108,7 +108,7 @@ void arrayCreationBooks(book booksList[])
     inBooksList.close();
 }
 
-void signIn(string inUsername, string inPassword, int& userIndex, user usersList[])
+void signIn(string inUsername, string inPassword, int &userIndex, user usersList[])
 {  //Mensaje de bienvenida
     cout << ". ";
     for (int i = 0; i < 40; i++)
@@ -184,7 +184,7 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
 
 void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
 {
-    ofstream outUsersList("./assets/dataProject.csv", ios::out);
+    ofstream outUsersList("../assets/dataProject.csv", ios::out);
 
     if (!outUsersList.is_open())
     {
@@ -210,7 +210,7 @@ void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
 }
 
 void saveBooks(book booksList[]) { //Guarda un arreglo de libros en el archivo
-    ofstream outBooksList("./assets/books.csv", ios::out);
+    ofstream outBooksList("../assets/books.csv", ios::out);
 
     if (!outBooksList.is_open()) {
         cout << "No se pudo abrir el archivo para guardar los libros.\n";
@@ -461,10 +461,89 @@ void modifyBook(book booksList[]) {
     }
 }
 
+void visualize_books(book booksList[])
+{
+    string strOption ="";
+    int option = 0;
+    do{
+        cout<<"¿En cual de los siguientes generos de lectura estas interesado(a)?."<<endl;
+        cout<<"Selecciona una opcion: \n1. Romance\n2. Fantasia\n3. Biografia\n4. Literatura\n5. Ficcion\n6. Misterio\n";
+        cin>>strOption;
+        option = stoi(strOption);
+        cout<<option<<endl;
+        if(option == 1)
+        {   
+            cout<<"Los libros de Romance son: "<<endl;
+            for(int i = 0; i<200; i++)
+            {
+                if(booksList[i].genre == "Romance")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            }
+        }
+        else if(option == 2)
+        {
+            cout<<"Los libros de Fantasia son: "<<endl;
+           for(int i = 0; i<200; i++)
+            {
+                if(booksList[i].genre == "Fantasia")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            } 
+        }
+        else if (option == 3)
+        {
+            cout<<"Los libros de Biografia son: "<<endl;
+            for(int i = 0 ; i<200; i++)
+            {
+                if(booksList[i].genre == "Biografia")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            }
+        }
+        else if (option == 4)
+        {
+            cout<<"Los libros de Literatura son: "<<endl;
+            for(int i = 0; i<200; i++)
+            {
+                if(booksList[i].genre == "Literatura")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            }
+        }
+        else if (option == 5)
+        {
+            cout<<"Los libros de Ficcion son: "<<endl;
+            for(int i = 0; i<200; i++)
+            {
+                if(booksList[i].genre == "Ficcion")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            }
+        }
+        else if (option == 6)
+        {
+            cout<<"Los libros de Misterio son: "<<endl;
+            for(int i = 0; i<200; i++)
+            {
+                if(booksList[i].genre == "Misterio")
+                {
+                    cout<<booksList[i].title<<", "<<booksList[i].author<<", "<<booksList[i].year<<". Estado: "<<booksList[i].status<<". Codigo: "<<booksList[i].code<<". Precio de Alquiler: "<<booksList[i].rentprice<<". Precio de Compra: "<<booksList[i].purchaseprice<<endl<<endl;
+                }
+            }
+        }
+    }while(option>=6);
+}
 
 void buy_book(user &currentUser, book booksList[], user usersList[]){
 
     string code;
+    visualize_books(booksList);
     cout << "Ingrese el codigo del libro a comprar: ";
     cin >> code;
     for (int i = 0; i < 200; i++)
@@ -501,6 +580,7 @@ void buy_book(user &currentUser, book booksList[], user usersList[]){
 void withdraw_book(user &currentUser, book booksList[], user usersList[])
 {
     string code;
+    visualize_books(booksList);
     cout << "Ingrese el codigo del libro a retirar: ";
     cin >> code;
     for (int i = 0; i < 200; i++)
