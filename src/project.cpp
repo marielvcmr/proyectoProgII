@@ -543,6 +543,7 @@ void visualize_books(book booksList[])
 void buy_book(user &currentUser, book booksList[], user usersList[]){
 
     string code;
+    bool existence = false;
     visualize_books(booksList);
     cout << "Ingrese el codigo del libro a comprar: ";
     cin >> code;
@@ -572,7 +573,12 @@ void buy_book(user &currentUser, book booksList[], user usersList[]){
             cout << "El libro no está disponible para la compra.\n";
             }
             break;
+            existence = true;
         }
+    }
+
+    if (existence == false){
+        cout<<"Este codigo no corresponde a ningun libro"<<endl;
     }
         
 }
@@ -580,6 +586,7 @@ void buy_book(user &currentUser, book booksList[], user usersList[]){
 void withdraw_book(user &currentUser, book booksList[], user usersList[])
 {
     string code;
+    bool existence = false;
     visualize_books(booksList);
     cout << "Ingrese el codigo del libro a retirar: ";
     cin >> code;
@@ -608,7 +615,12 @@ void withdraw_book(user &currentUser, book booksList[], user usersList[])
                 cout << "El libro no se encuentra disponible ahora mismo.\n";
             }
             break;
+            existence = true;
         }
+    }
+
+    if (existence == false){
+        cout<<"Este codigo no corresponde a ningun libro"<<endl;
     }
 }
 
