@@ -138,7 +138,7 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
          << endl;
     //Ingreso de datos
     cout << "Por favor, ingrese sus datos: " << endl;
-    cout << "Nombre de usuario: ";
+    cout << "Username: ";
     cin >> inUsername;
     cout << endl
          << "Clave: ";
@@ -182,22 +182,18 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
     cout << "____________________________________________" << endl;
 }
 
-void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
-{
+void saveUsers(user usersList[]) {
     ofstream outUsersList("./assets/dataProject.csv", ios::out);
 
-    if (!outUsersList.is_open())
-    {
+    if (!outUsersList.is_open()) {
         cout << "No se pudo abrir el archivo para guardar los usuarios.\n";
         return;
     }
 
     outUsersList << "name,last_name,id,username,password,accState,role,balance\n";
 
-    for (int i = 0; i < 200; ++i)
-    {
-        if (usersList[i].username != "") // Guardar solo usuarios válidos
-        {
+    for (int i = 0; i < 200; ++i) {
+        if (!usersList[i].username.empty()) {
             outUsersList << usersList[i].name << ',' << usersList[i].last_name << ','
                          << usersList[i].id << ',' << usersList[i].username << ','
                          << usersList[i].password << ',' << usersList[i].accState << ','
@@ -209,7 +205,7 @@ void saveUsers(user usersList[]) // Guarda un arreglo de usuarios en el archivo
     cout << "Usuarios guardados correctamente.\n";
 }
 
-void saveBooks(book booksList[]) { //Guarda un arreglo de libros en el archivo
+void saveBooks(book booksList[]) {
     ofstream outBooksList("./assets/books.csv", ios::out);
 
     if (!outBooksList.is_open()) {
@@ -220,7 +216,7 @@ void saveBooks(book booksList[]) { //Guarda un arreglo de libros en el archivo
     outBooksList << "titulo,autor,año,genero,precio_renta,precio_compra,code,estado,rentedBy\n";
 
     for (int i = 0; i < 200; ++i) {
-        if (!booksList[i].title.empty()) { // Guardar solo libros válidos
+        if (!booksList[i].title.empty() && booksList[i].code != 0) {
             outBooksList << booksList[i].title << ',' << booksList[i].author << ','
                          << booksList[i].year << ',' << booksList[i].genre << ','
                          << booksList[i].rentprice << ',' << booksList[i].purchaseprice << ','
@@ -232,6 +228,8 @@ void saveBooks(book booksList[]) { //Guarda un arreglo de libros en el archivo
     outBooksList.close();
     cout << "Libros guardados correctamente.\n";
 }
+
+
 void addUser(user usersList[])  // registro de un nuevo usuario
 {
     for (int i = 0; i < 200; i++)
@@ -244,7 +242,7 @@ void addUser(user usersList[])  // registro de un nuevo usuario
             cin >> usersList[i].last_name;
             cout << "Ingrese la cedula del nuevo usuario: ";
             cin >> usersList[i].id;
-            cout << "Ingrese el nombre de usuario para esta cuenta: ";
+            cout << "Ingrese el username para esta cuenta: ";
             cin >> usersList[i].username;
             cout << "Ingrese la clave a utilizar por esta cuenta: ";
             cin >> usersList[i].password;
@@ -262,7 +260,7 @@ void addUser(user usersList[])  // registro de un nuevo usuario
 void deleteUser(user usersList[])
 {
     string username;
-    cout << "Ingrese el nombre de usuario a eliminar: ";
+    cout << "Ingrese el username del usuario a eliminar: ";
     cin >> username;
     bool userFound = false;
 
@@ -291,7 +289,7 @@ void deleteUser(user usersList[])
 void suspendUser(user usersList[])
 {
     string username;
-    cout << "Ingrese el nombre de usuario a suspender: ";
+    cout << "Ingrese el username del usuario a suspender: ";
     cin >> username;
 
     for (int i = 0; i < 200; i++)
@@ -309,7 +307,7 @@ void suspendUser(user usersList[])
 void activateUser(user usersList[])
 {
     string username;
-    cout << "Ingrese el nombre de usuario a reactivar: ";
+    cout << "Ingrese el username del usuario a reactivar: ";
     cin >> username;
 
     for (int i = 0; i < 200; i++)
@@ -328,7 +326,7 @@ void changeBalance(user usersList[])
 {
     string username;
     float newBalance;
-    cout << "Ingrese el nombre de usuario del usuario cuyo saldo desea cambiar: ";
+    cout << "Ingrese el username del usuario cuyo saldo desea cambiar: ";
     cin >> username;
 
     bool userFound = false;
@@ -356,6 +354,7 @@ void changeBalance(user usersList[])
 void addBook(book booksList[]) {
     for (int i = 0; i < 200; i++) {
         if (booksList[i].code == 0) {
+            int newCode;
             cout << "Ingrese el título del nuevo libro: ";
             getline(cin, booksList[i].title);
             cout << "Ingrese el autor del nuevo libro: ";
@@ -369,16 +368,31 @@ void addBook(book booksList[]) {
             cin >> booksList[i].rentprice;
             cout << "Ingrese el precio de compra del nuevo libro: ";
             cin >> booksList[i].purchaseprice;
-            cout << "Ingrese el código del nuevo libro: ";
-            cin >> booksList[i].code;
-            booksList[i].status = "disponible";
-            booksList[i].rentedBy = "";
+            cout << "Ingrese el codigo del nuevo libro: ";
+            cin >> newCode;
+            
+            bool codeExists = false;
+            for (int j = 0; j < 200; ++j) {
+                if (booksList[j].code == newCode) {
+                    codeExists = true;
+                    break;
+                }
+            }
 
-            saveBooks(booksList);
+            if (codeExists) {
+                cout << "Error: El codigo del libro ya existe. No se puede agregar el libro.\n";
+                booksList[i] = {};
+            } else {
+                booksList[i].code = newCode;
+                booksList[i].status = "disponible";
+                booksList[i].rentedBy = "";
+                saveBooks(booksList);
+            }
             break;
         }
     }
 }
+
 
 void deleteBook(book booksList[]) {
     int code;
