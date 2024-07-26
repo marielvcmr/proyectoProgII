@@ -36,19 +36,33 @@ struct book
     string codeStr = to_string(code);
 };
 
-void arrayCreation(user usersList[])
-{
+void logError(const string& errorMsg) {
+    ofstream logFile("./assets/error_log.txt", ios::app); // Abrir en modo append
+    if (!logFile.is_open()) {
+        cout << "No se pudo abrir el archivo de log para escribir el error.\n";
+        return;
+    }
+    logFile << errorMsg << endl;
+    logFile.close();
+}
+
+
+void arrayCreation(user usersList[]) {
     string usuarioDatos;
     string nombre, apellido, cedula, usuario, clave, estatus, rol, balance;
 
     fstream inUsersList;
     inUsersList.open("./assets/dataProject.csv", ios::in);
 
+    if (!inUsersList.is_open()) {
+        logError("Error al abrir el archivo de usuarios para lectura.");
+        return;
+    }
+
     getline(inUsersList, usuarioDatos); // Leer la cabecera
     int line = 0;
 
-    while (getline(inUsersList, usuarioDatos) && line<200)
-    {
+    while (getline(inUsersList, usuarioDatos) && line < 200) {
         stringstream s(usuarioDatos);
         getline(s, nombre, ',');
         getline(s, apellido, ',');
@@ -60,14 +74,11 @@ void arrayCreation(user usersList[])
         getline(s, balance, ',');
 
         float saldoUsuario = 0.0; // Valor predeterminado en caso de error
-        try
-        {
+        try {
             saldoUsuario = stof(balance);
-        }
-        catch (const invalid_argument &e)
-        {
-            cerr << "Error al convertir balance a float: " << e.what() << endl;
-            // Manejo del error, como asignar un valor predeterminado o registrar el problema
+        } catch (const invalid_argument &e) {
+            string errorMsg = "Error al convertir balance a float en la línea " + to_string(line) + ": " + e.what();
+            logError(errorMsg);
         }
 
         usersList[line] = {nombre, apellido, cedula, usuario, clave, estatus, rol, saldoUsuario};
@@ -77,19 +88,22 @@ void arrayCreation(user usersList[])
     inUsersList.close();
 }
 
-void arrayCreationBooks(book booksList[])
-{
+void arrayCreationBooks(book booksList[]) {
     string bookData;
     string title, author, year, genre, rprice, pprice, code, status, rentedBy;
 
     fstream inBooksList;
     inBooksList.open("./assets/books.csv", ios::in);
 
+    if (!inBooksList.is_open()) {
+        logError("Error al abrir el archivo de libros para lectura.");
+        return;
+    }
+
     getline(inBooksList, bookData); // Leer la cabecera
     int line = 0;
 
-    while (getline(inBooksList, bookData) && line<200)
-    {
+    while (getline(inBooksList, bookData) && line < 200) {
         stringstream s(bookData);
         getline(s, title, ',');
         getline(s, author, ',');
@@ -101,42 +115,44 @@ void arrayCreationBooks(book booksList[])
         getline(s, status, ',');
         getline(s, rentedBy, ',');
 
-        booksList[line] = {title, author, stoi(year), genre, stof(rprice), stof(pprice), stoi(code), status, rentedBy};
+        try {
+            booksList[line] = {title, author, stoi(year), genre, stof(rprice), stof(pprice), stoi(code), status, rentedBy};
+        } catch (const invalid_argument &e) {
+            string errorMsg = "Error al convertir datos de libro en la línea " + to_string(line) + ": " + e.what();
+            logError(errorMsg);
+        }
         line += 1;
     }
 
     inBooksList.close();
 }
 
-void signIn(string inUsername, string inPassword, int& userIndex, user usersList[])
-{  //Mensaje de bienvenida
+
+void signIn(string inUsername, string inPassword, int& userIndex, user usersList[]) {
     cout << ". ";
-    for (int i = 0; i < 40; i++)
-    {
+    for (int i = 0; i < 40; i++) {
         cout << "_";
     }
     cout << " ." << endl;
 
     cout << "| ";
-    for (int i = 0; i < 6; i++)
-    {
+    for (int i = 0; i < 6; i++) {
         cout << " ";
     }
     cout << "Bienvenido a la Biblioteca!";
-    for (int i = 0; i < 6; i++)
-    {
+    for (int i = 0; i < 6; i++) {
         cout << " ";
     }
     cout << "  |" << endl;
 
     cout << ". ";
-    for (int i = 0; i < 40; i++)
-    {
+    for (int i = 0; i < 40; i++) {
         cout << "-";
     }
     cout << " ." << endl
          << endl;
-    //Ingreso de datos
+
+    // Ingreso de datos
     cout << "Por favor, ingrese sus datos: " << endl;
     cout << "Username: ";
     cin >> inUsername;
@@ -148,111 +164,105 @@ void signIn(string inUsername, string inPassword, int& userIndex, user usersList
     cout << "Autenticando..." << endl;
     userIndex = -1;
     int i = 0;
-    while (usersList[i].username != "")
-    {
-        if (inUsername == usersList[i].username && inPassword == usersList[i].password)
-        {
+    while (usersList[i].username != "") {
+        if (inUsername == usersList[i].username && inPassword == usersList[i].password) {
             userIndex = i;
             break;
-        }
-        else
-        {
+        } else {
             i += 1;
         }
     }
 
-    if (userIndex >= 0)
-    {
+    if (userIndex >= 0) {
         cout << "Hola, " << usersList[userIndex].name << "!" << endl;
-        if(usersList[userIndex].accState == "suspendida")
-        {
-            cout<<"Lo sentimos, esta cuenta esta suspendida."<<endl;
+        if(usersList[userIndex].accState == "suspendida") {
+            cout << "Lo sentimos, esta cuenta está suspendida." << endl;
             userIndex = -1;
+        } else {
+            cout << "Ahora puedes disfrutar de todo lo que te ofrece la Biblioteca" << endl;
+            cout << "Tipo de usuario: " << usersList[userIndex].role << endl;
         }
-        else
-        {
-            cout<<"Ahora puedes disfrutar de todo lo que te ofrece la Biblioteca"<<endl;
-            cout<<"Tipo de usuario: "<<usersList[userIndex].role<<endl;
-        }
-    }
-    else
-    {
+    } else {
         cout << "Sus datos son incorrectos" << endl;
+        logError("Intento de inicio de sesión fallido para el username: " + inUsername);
     }
     cout << "____________________________________________" << endl;
 }
 
-void saveUsers(user usersList[]) {
-    ofstream outUsersList("./assets/dataProject.csv", ios::out);
-
-    if (!outUsersList.is_open()) {
-        cout << "No se pudo abrir el archivo para guardar los usuarios.\n";
-        return;
-    }
-
-    outUsersList << "name,last_name,id,username,password,accState,role,balance\n";
-
-    for (int i = 0; i < 200; ++i) {
-        if (!usersList[i].username.empty()) {
-            outUsersList << usersList[i].name << ',' << usersList[i].last_name << ','
-                         << usersList[i].id << ',' << usersList[i].username << ','
-                         << usersList[i].password << ',' << usersList[i].accState << ','
-                         << usersList[i].role << ',' << usersList[i].balance << '\n';
-        }
-    }
-
-    outUsersList.close();
-    cout << "Usuarios guardados correctamente.\n";
-}
 
 void saveBooks(book booksList[]) {
-    ofstream outBooksList("./assets/books.csv", ios::out);
-
+    ofstream outBooksList("./assets/books.csv");
     if (!outBooksList.is_open()) {
-        cout << "No se pudo abrir el archivo para guardar los libros.\n";
+        logError("Error al abrir el archivo de libros para escritura.");
         return;
     }
 
-    outBooksList << "titulo,autor,año,genero,precio_renta,precio_compra,code,estado,rentedBy\n";
-
-    for (int i = 0; i < 200; ++i) {
-        if (!booksList[i].title.empty() && booksList[i].code != 0) {
-            outBooksList << booksList[i].title << ',' << booksList[i].author << ','
-                         << booksList[i].year << ',' << booksList[i].genre << ','
-                         << booksList[i].rentprice << ',' << booksList[i].purchaseprice << ','
-                         << booksList[i].code << ',' << booksList[i].status << ','
-                         << booksList[i].rentedBy << '\n';
+    outBooksList << "title,author,year,genre,rprice,pprice,code,status,rentedBy\n";
+    for (int i = 0; i < 200; i++) {
+        if (booksList[i].code != 0) {
+            outBooksList << booksList[i].title << ","
+                         << booksList[i].author << ","
+                         << booksList[i].year << ","
+                         << booksList[i].genre << ","
+                         << booksList[i].rentprice << ","
+                         << booksList[i].purchaseprice << ","
+                         << booksList[i].code << ","
+                         << booksList[i].status << ","
+                         << booksList[i].rentedBy << "\n";
         }
     }
 
     outBooksList.close();
-    cout << "Libros guardados correctamente.\n";
 }
 
+void saveUsers(user usersList[]) {
+    ofstream outUsersList("./assets/dataProject.csv");
+    if (!outUsersList.is_open()) {
+        logError("Error al abrir el archivo de usuarios para escritura.");
+        return;
+    }
 
-void addUser(user usersList[])  // registro de un nuevo usuario
-{
-    for (int i = 0; i < 200; i++)
-    {
-        if (usersList[i].username == "")
-        {
-            cout << "Ingrese el nombre del nuevo usuario: ";
-            cin >> usersList[i].name;
-            cout << "Ingrese el apellido del nuevo usuario: ";
-            cin >> usersList[i].last_name;
-            cout << "Ingrese la cedula del nuevo usuario: ";
-            cin >> usersList[i].id;
-            cout << "Ingrese el username para esta cuenta: ";
-            cin >> usersList[i].username;
-            cout << "Ingrese la clave a utilizar por esta cuenta: ";
-            cin >> usersList[i].password;
-            usersList[i].accState = "activo";
-            cout << "Ingrese el tipo de usuario a ser registrado: ";
-            cin >> usersList[i].role;
-            cout << "Ingrese saldo del usuario: ";
-            cin >> usersList[i].balance;
-            saveUsers(usersList);
-            break;
+    outUsersList << "name,last_name,id,username,password,accState,role,balance\n";
+    for (int i = 0; i < 200; i++) {
+        if (usersList[i].username != "") {
+            outUsersList << usersList[i].name << ","
+                         << usersList[i].last_name << ","
+                         << usersList[i].id << ","
+                         << usersList[i].username << ","
+                         << usersList[i].password << ","
+                         << usersList[i].accState << ","
+                         << usersList[i].role << ","
+                         << usersList[i].balance << "\n";
+        }
+    }
+
+    outUsersList.close();
+}
+
+void addUser(user usersList[]) {
+    for (int i = 0; i < 200; i++) {
+        if (usersList[i].username == "") {
+            try {
+                cout << "Ingrese el nombre del nuevo usuario: ";
+                cin >> usersList[i].name;
+                cout << "Ingrese el apellido del nuevo usuario: ";
+                cin >> usersList[i].last_name;
+                cout << "Ingrese la cedula del nuevo usuario: ";
+                cin >> usersList[i].id;
+                cout << "Ingrese el username para esta cuenta: ";
+                cin >> usersList[i].username;
+                cout << "Ingrese la clave a utilizar por esta cuenta: ";
+                cin >> usersList[i].password;
+                usersList[i].accState = "activo";
+                cout << "Ingrese el tipo de usuario a ser registrado: ";
+                cin >> usersList[i].role;
+                cout << "Ingrese saldo del usuario: ";
+                cin >> usersList[i].balance;
+                saveUsers(usersList);
+                break;
+            } catch (const exception& e) {
+                logError("Error al agregar usuario: " + string(e.what()));
+            }
         }
     }
 }
@@ -354,41 +364,45 @@ void changeBalance(user usersList[])
 void addBook(book booksList[]) {
     for (int i = 0; i < 200; i++) {
         if (booksList[i].code == 0) {
-            int newCode;
-            cout << "Ingrese el título del nuevo libro: ";
-            getline(cin, booksList[i].title);
-            cout << "Ingrese el autor del nuevo libro: ";
-            getline(cin, booksList[i].author);
-            cout << "Ingrese el año de publicación del nuevo libro: ";
-            cin >> booksList[i].year;
-            cout << "Ingrese el género del nuevo libro: ";
-            cin.ignore();
-            getline(cin, booksList[i].genre);
-            cout << "Ingrese el precio de renta del nuevo libro: ";
-            cin >> booksList[i].rentprice;
-            cout << "Ingrese el precio de compra del nuevo libro: ";
-            cin >> booksList[i].purchaseprice;
-            cout << "Ingrese el codigo del nuevo libro: ";
-            cin >> newCode;
-            
-            bool codeExists = false;
-            for (int j = 0; j < 200; ++j) {
-                if (booksList[j].code == newCode) {
-                    codeExists = true;
-                    break;
-                }
-            }
+            try {
+                int newCode;
+                cout << "Ingrese el título del nuevo libro: ";
+                getline(cin, booksList[i].title);
+                cout << "Ingrese el autor del nuevo libro: ";
+                getline(cin, booksList[i].author);
+                cout << "Ingrese el año de publicación del nuevo libro: ";
+                cin >> booksList[i].year;
+                cout << "Ingrese el género del nuevo libro: ";
+                cin.ignore();
+                getline(cin, booksList[i].genre);
+                cout << "Ingrese el precio de renta del nuevo libro: ";
+                cin >> booksList[i].rentprice;
+                cout << "Ingrese el precio de compra del nuevo libro: ";
+                cin >> booksList[i].purchaseprice;
+                cout << "Ingrese el código del nuevo libro: ";
+                cin >> newCode;
 
-            if (codeExists) {
-                cout << "Error: El codigo del libro ya existe. No se puede agregar el libro.\n";
-                booksList[i] = {};
-            } else {
-                booksList[i].code = newCode;
-                booksList[i].status = "disponible";
-                booksList[i].rentedBy = "";
-                saveBooks(booksList);
+                bool codeExists = false;
+                for (int j = 0; j < 200; ++j) {
+                    if (booksList[j].code == newCode) {
+                        codeExists = true;
+                        break;
+                    }
+                }
+
+                if (codeExists) {
+                    cout << "Error: El código del libro ya existe. No se puede agregar el libro.\n";
+                    booksList[i] = {};
+                } else {
+                    booksList[i].code = newCode;
+                    booksList[i].status = "disponible";
+                    booksList[i].rentedBy = "";
+                    saveBooks(booksList);
+                }
+                break;
+            } catch (const exception& e) {
+                logError("Error al agregar libro: " + string(e.what()));
             }
-            break;
         }
     }
 }
@@ -476,100 +490,78 @@ void modifyBook(book booksList[]) {
 }
 
 
-void buy_book(user &currentUser, book booksList[], user usersList[]){
-
+void buy_book(user &currentUser, book booksList[], user usersList[]) {
     string code;
-    cout << "Ingrese el codigo del libro a comprar: ";
+    cout << "Ingrese el código del libro a comprar: ";
     cin >> code;
-    for (int i = 0; i < 200; i++)
-    {
-        if (booksList[i].codeStr == code)
-        {
-            if (booksList[i].status == "disponible")
-            {
-                if (currentUser.balance >= booksList[i].purchaseprice)
-                {
+    for (int i = 0; i < 200; i++) {
+        if (booksList[i].codeStr == code) {
+            if (booksList[i].status == "disponible") {
+                if (currentUser.balance >= booksList[i].purchaseprice) {
                     currentUser.balance -= booksList[i].purchaseprice;
-                    booksList[i].status = "no disponible - VENDIDO";
-                    booksList[i].codeStr = ""; // Marca el libro como eliminado
-                    cout << "Libro comprado exitosamente.\n";
-                    saveBooks(booksList); // Guarda los cambios en books.csv
-                    arrayCreationBooks(booksList); //Guarda los cambios en el arreglo de libros
-                    saveUsers(usersList); // Guarda los cambios en dataProject.csv
+                    booksList[i].status = "comprado";
+                    booksList[i].rentedBy = currentUser.username;
+                    saveBooks(booksList);
+                    saveUsers(usersList);
+                    cout << "Compra realizada con éxito.\n";
+                } else {
+                    cout << "Saldo insuficiente.\n";
                 }
-                else
-                {
-                    cout << "Saldo insuficiente para comprar el libro.\n";
-                }
+            } else {
+                cout << "El libro no está disponible para compra.\n";
             }
-            else
-            {
-            cout << "El libro no está disponible para la compra.\n";
-            }
-            break;
+            return;
         }
     }
-        
+    cout << "Código de libro no encontrado.\n";
 }
 
-void withdraw_book(user &currentUser, book booksList[], user usersList[])
-{
+void withdraw_book(user &currentUser, book booksList[], user usersList[]) {
     string code;
-    cout << "Ingrese el codigo del libro a retirar: ";
+    cout << "Ingrese el código del libro a retirar: ";
     cin >> code;
-    for (int i = 0; i < 200; i++)
-    {
-        if (booksList[i].codeStr == code)
-        {
-            if (booksList[i].status == "disponible")
-            {
-                if (currentUser.balance >= booksList[i].rentprice)
-                {
+    for (int i = 0; i < 200; i++) {
+        if (booksList[i].codeStr == code) {
+            if (booksList[i].status == "disponible") {
+                if (currentUser.balance >= booksList[i].rentprice) {
                     currentUser.balance -= booksList[i].rentprice;
-                    booksList[i].status = "no disponible";
-                    booksList[i].rentedBy = currentUser.id;
-                    cout << "Libro retirado. Recuerde devolverlo a tiempo.\n";
-                    saveBooks(booksList); // Guarda los cambios en books.csv
-                    saveUsers(usersList); // Guarda los cambios en dataProject.csv
+                    booksList[i].status = "retirado";
+                    booksList[i].rentedBy = currentUser.username;
+                    saveBooks(booksList);
+                    saveUsers(usersList);
+                    cout << "Retiro realizado con éxito.\n";
+                } else {
+                    cout << "Saldo insuficiente.\n";
                 }
-                else
-                {
-                    cout << "Saldo insuficiente para retirar el libro.\n";
-                }
+            } else {
+                cout << "El libro no está disponible para retiro.\n";
             }
-            else
-            {
-                cout << "El libro no se encuentra disponible ahora mismo.\n";
-            }
-            break;
+            return;
         }
     }
+    cout << "Código de libro no encontrado.\n";
 }
 
-void returnBook(user &currentUser, book booksList[], user usersList[])
-{
+void returnBook(user &currentUser, book booksList[], user usersList[]) {
     string code;
-    cout << "Ingrese el codigo del libro a devolver: ";
+    cout << "Ingrese el código del libro a devolver: ";
     cin >> code;
-    for (int i = 0; i < 200; i++)
-    {
-        if (booksList[i].codeStr == code)
-        {
-            if (booksList[i].status == "no disponible" && booksList[i].rentedBy == currentUser.id)
-            {
+    for (int i = 0; i < 200; i++) {
+        if (booksList[i].codeStr == code) {
+            if (booksList[i].rentedBy == currentUser.username) {
                 booksList[i].status = "disponible";
                 booksList[i].rentedBy = "";
-                cout << "Libro devuelto con éxito.\n";
                 saveBooks(booksList);
-                break;
+                cout << "Devolución realizada con éxito.\n";
+            } else {
+                cout << "Este libro no fue retirado por usted.\n";
             }
-            else
-            {
-                cout << "No puede devolver este libro.\n";
-            }
+            return;
         }
     }
+    cout << "Código de libro no encontrado.\n";
 }
+
 
 void clientOptions(user &currentUser, book booksList[], user usersList[])
 {
